@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+
+<style>
+body {
+background-color: #ffffff;
+margin: 0;
+overflow: hidden;
+}
+</style >
+</head>
+<body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/95/three.min.js "></script >
+<script>
+var camera, scene, renderer;
+var geometry, material, mesh;
+var clock;
+
+function cubo(x, y, z, px, py, pz, material, color, wf){
+    geometry = new THREE.CubeGeometry(x, y, z);
+    switch(material) {
+        case 'Basic': material = new THREE.MeshBasicMaterial({color: color, wireframe: wf}); break;
+        case 'Standard': material = new THREE.MeshStandardMaterial({color: color, wireframe: wf}); break;
+        case 'Physical': material = new THREE.MeshPhysicalMaterial({color: color, wireframe: wf}); break;
+        case 'Phong': material = new THREE.MeshPhongMaterial({color: color, wireframe: wf}); break;
+        case 'Lambert': material = new THREE.MeshLambertMaterial({color: color, wireframe: wf}); break;
+    }
+    cube = new THREE.Mesh(geometry, material);
+    scene.add(cube);
+    cube.position.set(px, py, pz);
+
+    
+    return cube;
+}
+
+function init() {
+    renderer = new THREE.WebGLRenderer();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+    scene = new THREE.Scene();
+   
+    cubo(0, 0, 0,0, 0, 0, 'Basic', 'green', true);
+    cube.position.set(0, 0, 5);
+
+    cubo(0, 0, 0, 0,0, 0, 'Basic', 'green', true);
+    cube.position.set(0, 5, 0);
+
+    cubo(0, 0, 0, 0,0, 0, 'Basic', 'green', true);
+    cube.position.set(5, 0, 0);
+
+    
+
+    const axesHelper = new THREE.AxesHelper( 10 );
+    scene.add(axesHelper);
+
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+    camera.position.set(10,10,10);
+    camera.lookAt(cube.position);
+
+    clock = new THREE.Clock();
+    window.addEventListener('resize', onWindowResize, false);
+}
+
+var dir = 1;
+
+function onWindowResize() {
+    windowHalfX = window.innerWidth / 2;
+    windowHalfY = window.innerHeight / 2;
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+
+}
+init();
+renderer.render(scene,camera);
+</script >
+</body>
+</html>
